@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moviedb/core/common/routes.dart';
 import 'package:moviedb/main_tab/main_tab_screen.dart';
+import 'package:moviedb/movie/widgets/detail/movie_detail.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Movie Data',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blue,
           fontFamily: 'Poppins',
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(color: Colors.white),
           )),
       home: MainTabScreen(),
+      routes: {Routes.detailMovie: (_) => MovieDetailScreen()},
     );
   }
 }
