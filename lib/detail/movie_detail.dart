@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/core/models/actor.dart';
 import 'package:moviedb/core/models/movie_detail.dart';
 import 'package:moviedb/core/models/video_response.dart';
+import 'package:moviedb/core/providers/firebase_analytic_provider.dart';
 import 'package:moviedb/detail/components/movie_detail_header.dart';
 import 'package:moviedb/detail/components/video_player.dart';
 import 'package:moviedb/detail/list_cast_view_model.dart';
@@ -15,9 +16,14 @@ class MovieDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as int;
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(analyticProvider).logEvent(name: "detail_screen");
+    });
+
     context.read(detailMovieViewModelProvider.notifier).loadDataById(id);
     context.read(listActorViewModelProvider.notifier).loadDataById(id);
     context.read(videoTrailerViewModelProvider.notifier).loadDataById(id);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: NestedScrollView(

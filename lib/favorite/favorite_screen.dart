@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moviedb/core/providers/firebase_analytic_provider.dart';
 
-class FavoriteScreen extends StatelessWidget{
+class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await context.read(analyticProvider).logEvent(name: "favorite_screen");
+    });
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
