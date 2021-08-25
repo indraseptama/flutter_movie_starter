@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/core/models/actor.dart';
 import 'package:moviedb/core/models/movie_detail.dart';
 import 'package:moviedb/core/models/video_response.dart';
-import 'package:moviedb/movie/widgets/detail/components/movie_detail_header.dart';
-import 'package:moviedb/movie/widgets/detail/components/video_player.dart';
-import 'package:moviedb/movie/widgets/detail/movie_detail_view_model.dart';
+import 'package:moviedb/detail/components/movie_detail_header.dart';
+import 'package:moviedb/detail/components/video_player.dart';
+import 'package:moviedb/detail/list_cast_view_model.dart';
+import 'package:moviedb/detail/movie_detail_view_model.dart';
+import 'package:moviedb/detail/video_trailer_view_model.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   const MovieDetailScreen({Key? key}) : super(key: key);
@@ -13,6 +15,9 @@ class MovieDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as int;
+    context.read(detailMovieViewModelProvider.notifier).loadDataById(id);
+    context.read(listActorViewModelProvider.notifier).loadDataById(id);
+    context.read(videoTrailerViewModelProvider.notifier).loadDataById(id);
     return Scaffold(
       backgroundColor: Colors.black,
       body: NestedScrollView(
@@ -31,7 +36,8 @@ class MovieDetailScreen extends StatelessWidget {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 background: Consumer(builder: (context, watch, child) {
-                  final state = watch(detailMovieViewModelProvider(id));
+                  final state = watch(detailMovieViewModelProvider);
+
                   return state.when(data: (MovieDetail? movie) {
                     return MovieDetailHeader(
                       movie: movie!,
@@ -63,7 +69,7 @@ class MovieDetailScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Consumer(builder: (context, watch, child) {
-                  final state = watch(detailMovieViewModelProvider(id));
+                  final state = watch(detailMovieViewModelProvider);
                   return state.when(data: (MovieDetail? movie) {
                     return Text(movie!.sinopsis);
                   }, loading: () {
@@ -83,7 +89,7 @@ class MovieDetailScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Consumer(builder: (context, watch, child) {
-                  final state = watch(videoTrailerViewModelProvider(id));
+                  final state = watch(videoTrailerViewModelProvider);
                   return state.when(data: (VideoResponse? videos) {
                     String url = videos!.videos
                         .firstWhere((element) => element.site == "YouTube")
@@ -103,7 +109,7 @@ class MovieDetailScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
                 ),
                 Consumer(builder: (context, watch, child) {
-                  final state = watch(castViewModelProvider(id));
+                  final state = watch(listActorViewModelProvider);
                   return state.when(data: (List<Actor>? actors) {
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

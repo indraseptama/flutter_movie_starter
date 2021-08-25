@@ -63,30 +63,30 @@ class MovieService {
     return movies;
   }
 
-  Future<MovieDetail?> getMovieById(int id) async {
-    var response =
-        await _dio.get('${API_URL}movie/$id?api_key=$API_KEY&language=en-US');
-    if (response.statusCode == 200) {
+  Future<MovieDetail> getMovieById(int id) async {
+    try {
+      var response =
+          await _dio.get('${API_URL}movie/$id?api_key=$API_KEY&language=en-US');
       return MovieDetail.fromJson(response.data);
-    } else {
-      return null;
+    } catch (err) {
+      throw (err);
     }
   }
 
-  Future<VideoResponse?> getVideoById(int id) async {
-    var response = await _dio
-        .get('${API_URL}movie/${id}/videos?api_key=$API_KEY&language=en-US');
-    if (response.statusCode == 200) {
+  Future<VideoResponse> getVideoById(int id) async {
+    try {
+      var response = await _dio
+          .get('${API_URL}movie/${id}/videos?api_key=$API_KEY&language=en-US');
       return VideoResponse.fromJson(response.data);
-    } else {
-      return null;
+    } catch (err) {
+      throw (err);
     }
   }
 
-  Future<List<Actor>?> getCastById(int id) async {
-    var response = await _dio
-        .get('${API_URL}movie/${id}/credits?api_key=$API_KEY&language=en-US');
-    if (response.statusCode == 200) {
+  Future<List<Actor>> getCastById(int id) async {
+    try {
+      var response = await _dio
+          .get('${API_URL}movie/${id}/credits?api_key=$API_KEY&language=en-US');
       List<Actor> tmp = [];
       print(response.data);
       for (dynamic data in response.data["cast"]) {
@@ -94,8 +94,8 @@ class MovieService {
         tmp.add(Actor.fromJson(data));
       }
       return tmp;
-    } else {
-      return null;
+    } catch (err) {
+      throw (err);
     }
   }
 }

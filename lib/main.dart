@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/core/common/routes.dart';
+import 'package:moviedb/detail/movie_detail.dart';
 import 'package:moviedb/main_tab/main_tab_screen.dart';
-import 'package:moviedb/movie/widgets/detail/movie_detail.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
