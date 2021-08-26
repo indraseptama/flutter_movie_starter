@@ -40,10 +40,6 @@ class AppDio with DioMixin implements Dio {
           }
 
           return handler.next(requestOptions);
-        }, onError: (requestOptions, handler) {
-          print('error woy');
-
-          return handler.next(requestOptions);
         }, onResponse: (requestOptions, handler) {
           var temp = requestOptions.data;
           requestOptions.data = temp;

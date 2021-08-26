@@ -88,7 +88,6 @@ class MovieService {
       var response = await _dio
           .get('${API_URL}movie/${id}/credits?api_key=$API_KEY&language=en-US');
       List<Actor> tmp = [];
-      print(response.data);
       for (dynamic data in response.data["cast"]) {
         if (tmp.length > 4) break;
         tmp.add(Actor.fromJson(data));

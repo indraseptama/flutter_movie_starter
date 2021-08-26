@@ -17,12 +17,12 @@ class MovieDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as int;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      context.read(detailMovieViewModelProvider.notifier).loadDataById(id);
+      context.read(listActorViewModelProvider.notifier).loadDataById(id);
+      context.read(videoTrailerViewModelProvider.notifier).loadDataById(id);
+
       await context.read(analyticProvider).logEvent(name: "detail_screen");
     });
-
-    context.read(detailMovieViewModelProvider.notifier).loadDataById(id);
-    context.read(listActorViewModelProvider.notifier).loadDataById(id);
-    context.read(videoTrailerViewModelProvider.notifier).loadDataById(id);
 
     return Scaffold(
       backgroundColor: Colors.black,

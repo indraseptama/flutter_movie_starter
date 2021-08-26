@@ -18,7 +18,6 @@ class ListActorViewModel extends StateNotifier<AsyncValue<List<Actor>>> {
       List<Actor> videoResponse = await _movieService.getCastById(id);
       state = AsyncData(videoResponse);
     } catch (err) {
-      print("jiah2");
       state = AsyncError(err);
     }
   }
